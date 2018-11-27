@@ -10,7 +10,7 @@
   "map": ["share"],
   "audio": true,
   "ports": {
-    "9324/tcp": 9324
+    "9324/tcp": 9324,
     "5000/tcp": 5000
   },
   "webui": "http://[HOST]:[PORT:9324]",
