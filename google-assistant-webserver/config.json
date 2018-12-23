@@ -1,6 +1,6 @@
 {
   "name": "Google Assistant SDK",
-  "version": "2.1.0",
+  "version": "2.1.2",
   "slug": "google_assistant",
   "description": "A virtual personal assistant developed by Google. Supports custom hotwords, bluetooth speakers, and a webserver.",
   "url": "https://home-assistant.io/addons/google_assistant/",
@@ -9,6 +9,8 @@
   "arch": ["armhf", "amd64"],
   "map": ["share"],
   "audio": true,
+  "auto_uart": true,
+  "full_access": true,
   "ports": {
     "9324/tcp": 9324,
     "5000/tcp": 5000
