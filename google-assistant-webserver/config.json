@@ -7,7 +7,7 @@
   "startup": "application",
   "boot": "auto",
   "arch": ["armhf", "amd64"],
-  "map": ["share"],
+  "map": ["share":rw],
   "audio": true,
   "devices": ["/dev/snd:/dev/snd:rwm"],
   "auto_uart": true,
