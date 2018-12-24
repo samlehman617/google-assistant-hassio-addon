@@ -4,12 +4,13 @@ FROM $BUILD_FROM
 # Install packages
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
+    git make \
     jq tzdata swig3.0 sox sudo \
     python3 python3-dev python3-pip python-pyaudio python3-pyaudio \
     libssl-dev libatlas-base-dev \
     portaudio19-dev libportaudio2 libffi-dev libmpg123-dev \
     # bluealsa alsa-utils \
-    alsa-utils \
+    alsa-utils bluetooth \
     && pip3 install --no-cache-dir --upgrade setuptools \
     && pip3 install --no-cache-dir \
     google-assistant-library==1.0.0 \
