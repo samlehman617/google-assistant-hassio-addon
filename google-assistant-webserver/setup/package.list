@@ -1,0 +1,27 @@
+# Python
+python3
+python3-dev
+python3-pip
+python3-pyaudio
+python-pyaudio
+
+# Audio
+portaudio19-dev
+libportaudio2
+libffi-dev
+libmpg123-dev
+alsa-utils
+bluetooth
+libpcre3
+libpcre3-dev
+sox
+
+# Misc
+libatlas-base-dev
+libssl-dev
+git
+make
+jq
+tzdata
+swig3.0
+sudo
