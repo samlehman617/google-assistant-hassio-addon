@@ -52,6 +52,8 @@ from flask_restful import Resource, Api
 
 from webserver.assistant_webserver import GoogleTextAssistant
 
+DEVICE_CONFIG = "/data/device.json"
+
 WARNING_NOT_REGISTERED = """
     This device is not registered. This means you will not be able to use Device Actions or see your device in Assistant Settings. In order to register this device follow instructions at: 
         
@@ -103,9 +105,9 @@ class MyAssistant():
             else:
                 self.assistant.set_mic_mute(False)
             if gender == 'Male':
-                subprocess.Popen(['aplay', "{}/resources/sample-audio-files/Mic-On-Male.wav"], stdin=subprocess.PIPE, stderr=subprocess.PIPE)
+                subprocess.Popen(['aplay', "/resources/sample-audio-files/Mic-On-Male.wav"], stdin=subprocess.PIPE, stderr=subprocess.PIPE)
             else:
-                subprocess.Popen(['aplay', "{}/resources/sample-audio-files/Mic-On-Female.wav"], stdin=subprocess.PIPE, stderr=subprocess.PIPE)
+                subprocess.Popen(['aplay', "/resources/sample-audio-files/Mic-On-Female.wav"], stdin=subprocess.PIPE, stderr=subprocess.PIPE)
             print("Turning on the microphone")
         else:
             open('/.mute', 'a').close()
@@ -280,6 +282,7 @@ class MyAssistant():
         # Re-register if 'device_model_id" is given by the user and it differs from what we previously registered with.
         should_register = (args.device_model_id and args.device_model_id != device_model_id)
         device_model_id = args.device_model_id or device_model_id
+
         with Assistant(credentials, device_model_id) as assistant:
             self.assistant = assistant
             if gender == 'Male':
@@ -349,9 +352,44 @@ class MyAssistant():
         if custom_wakeword:
             self.detector.terminate()
 
+
+class Broadcast(Resource):
+    def __init__(self):
+        self.assistant = assistant.assistant
+    def get(self):
+        message = request.args.get('message', default = "This is a test!")
+        text_query = "broadcast " + message
+        try:
+            self.assistant.send_text_query(text_query=text_query)
+        except Exception as errBroadcast:
+            logging.DEBUG(errBroadcast)
+            return {'status': 'ERROR'}
+        else:
+            return {'status': 'OK'}
+
+class Command(Resource):
+    def __init__(self):
+        self.assistant = assistant.assistant
+    def get(self):
+        cmd = request.args.get('message', default = "broadcast 'This is a test command!'")
+        try:
+            self.assistant.send_text_query(text_query=cmd)
+        except Exception as errCommand:
+            logging.DEBUG(errCommand)
+            return {'status': 'ERROR'}
+        else:
+            return {'status': 'OK'}
+
+
 if __name__ == '__main__':
+    global assistant
     try:
-        MyAssistant().main()
+        app = Flask(__name__)
+        api = Api(app)
+        assistant = MyAssistant()
+        api.add_resource(Broadcast, '/broadcast')
+        api.add_resource(Command, '/command')
+        assistant.main()
+        app.run(host='0.0.0.0')
     except Exception as error:
         logger.exception(error)
-
