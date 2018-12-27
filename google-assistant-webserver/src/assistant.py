@@ -48,8 +48,9 @@ import google.auth.transport.grpc
 from google.auth.transport import requests as grequest
 from google_assistant.embedded.v1alpha2 import embedded_assistant_pb2, embedded_assistant_pb2_grpc
 from flask import Flask, request, jsonify
-from flask_restful import import Resource, Api
+from flask_restful import Resource, Api
 
+from webserver.assistant_webserver import GoogleTextAssistant
 
 WARNING_NOT_REGISTERED = """
     This device is not registered. This means you will not be able to use Device Actions or see your device in Assistant Settings. In order to register this device follow instructions at: 
@@ -254,12 +255,13 @@ class MyAssistant():
         parser.add_argument('--project-id', '--project_id', type=str, metavar='PROJECT_ID', required=False, help="the project ID used to register this device")
         parser.add_argument('--nickname', type=str, metavar='NICKNAME', required=False, help="the nickname used to register this device")
         parser.add_argument('--device-config', '--device_config', type=str, metavar='DEVICE_CONFIG_FILE',
-                            default=os.path.join(
-                                                os.path.expanduser('~/.config'),
-                                                'googlesamples-assistant',
-                                                'device_config_library.json'
-                            ),
+                            default="/data/client.json",
                             help="path to store and read OAuth2 credentials")
+        parser.add_argument('--credentials', type=existing_file,
+                            metavar='OAUTH2_CREDENTIALS_FILE',
+                            default="/data/cred.json",
+                            help="path to store and read OAuth2 credentials"
+                            )
         parser.add_argument('--query', type=str, metavar='QUERY', help='query to send as soon as the Assistant starts')
         parser.add_argument('-v', '--version', action='version', version='%(prog)s ' + Assistant.__version_str__())
         args = parser.parse_args()
