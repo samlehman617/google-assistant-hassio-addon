@@ -11,9 +11,9 @@ MODEL_ID=$(jq --raw-output '.model_id' $CONFIG_PATH)
 SPEAKER_MAC=$(jq --raw-output '.model_id' $CONFIG_PATH)
 
 # Enable Bluetooth
-./enable_bt.sh $SPEAKER_MAC
+# ./enable_bt.sh $SPEAKER_MAC
 # Enable Hotword Detection
-./src/snowboy.sh
+# ./src/snowboy.sh
 
 # Check if a new assistant file exists
 if [ -f "/share/$CLIENT_SECRETS" ]; then
@@ -29,19 +29,21 @@ elif [ ! -f "$CRED_JSON" ]; then
     exit 1
 fi
 
-echo "[Info] Run Hass.io GAssisant SDK"
-exec python3 /src/hassio_gassistant.py "$CRED_JSON" "$PROJECT_ID" "$MODEL_ID" < /dev/null
-
 # Setup bluetooth
 # Connect to device
-echo -e "connect $1" | bluetoothctl
-echo -e "trust $1" | bluetoothctl
+
+echo -e "connect $SPEAKER_MAC" | bluetoothctl
+echo -e "trust $SPEAKER_MAC" | bluetoothctl
 
 # Change bluetooth device in sound config
 search="00:00:00:00:00:00"
-sed 's/$search/$1/g' .asoundrc
+sed 's/$search/$SPEAKER_MAC/g' /.asoundrc
 
 # Save a copy to /etc/asound.conf & prevent being overwritten
 sudo cp /.asoundrc /etc/asound.conf
 sudo cp /.asoundrc ~/.asoundrc
 chmod a-w /.asoundrc
+
+echo "[Info] Run Hass.io Google Assisant SDK"
+exec python3 /src/assistant.py --credentials $CRED_JSON --device_config $CLIENT_JSON --project_id $PROJECT_ID --device_model_id $MODEL_ID
+# exec python3 /src/webserver/hassio_gassistant.py "$CRED_JSON" "$PROJECT_ID" "$MODEL_ID" < /dev/null
