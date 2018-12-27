@@ -60,9 +60,6 @@ WARNING_NOT_REGISTERED = """
 logging.basicConfig(filename="/tmp/gassistant.log", level=logging.DEBUG, format='%(asctime)s %(levelname)s %(name)s %(message)s')
 logger = logging.getLogger(__name__)
 
-ROOT_PATH = os.path.realpath(os.path.join(__file__, '..', '..'))
-USER_PATH = os.path.realpath(os.path.join(__file__, '..', '..', '..'))
-
 mutestopbutton = True
 
 # Magic Mirror Remote Control
@@ -97,8 +94,8 @@ class MyAssistant():
         return self.interrupted
 
     def buttonSinglePress(self):
-        if os.path.isfile("{}/.mute".format(USER_PATH)):
-            os.system("sudo rm {}/.mute".format(USER_PATH))
+        if os.path.isfile("/.mute"):
+            os.system("sudo rm /.mute")
             assistantindicator('unmute')
             # shivasiddharth/GassistPi...src/main.py
             if configuration['Wakewords']['Ok_Google'] == 'Disabled':
@@ -106,18 +103,18 @@ class MyAssistant():
             else:
                 self.assistant.set_mic_mute(False)
             if gender == 'Male':
-                subprocess.Popen(['aplay', "{}/sample-audio-files/Mic-On-Male.wav".format(ROOT_PATH)], stdin=subprocess.PIPE, stderr=subprocess.PIPE)
+                subprocess.Popen(['aplay', "{}/resources/sample-audio-files/Mic-On-Male.wav"], stdin=subprocess.PIPE, stderr=subprocess.PIPE)
             else:
-                subprocess.Popen(['aplay', "{}/sample-audio-files/Mic-On-Female.wav".format(ROOT_PATH)], stdin=subprocess.PIPE, stderr=subprocess.PIPE)
+                subprocess.Popen(['aplay', "{}/resources/sample-audio-files/Mic-On-Female.wav"], stdin=subprocess.PIPE, stderr=subprocess.PIPE)
             print("Turning on the microphone")
         else:
-            open('{}/.mute'.format(USER_PATH), 'a').close()
+            open('/.mute', 'a').close()
             assistantindicator('mute')
             self.assistant.set_mic_mute(True)
             if gender == 'Male':
-                subprocess.Popen(['aplay', "{}/sample-audio-files/Mic-On-Male.wav".format(ROOT_PATH)], stdin=subprocess.PIPE, stderr=subprocess.PIPE)
+                subprocess.Popen(['aplay', "/resources/sample-audio-files/Mic-On-Male.wav"], stdin=subprocess.PIPE, stderr=subprocess.PIPE)
             else:
-                subprocess.Popen(['aplay', "{}/sample-audio-files/Mic-On-Female.wav".format(ROOT_PATH)], stdin=subprocess.PIPE, stderr=subprocess.PIPE)
+                subprocess.Popen(['aplay', "/resources/sample-audio-files/Mic-On-Female.wav"], stdin=subprocess.PIPE, stderr=subprocess.PIPE)
             print("Turning off the microphone")
 
     def buttondoublepress(self):
@@ -171,16 +168,16 @@ class MyAssistant():
             self.can_start_conversation = True
             if GPIOcontrol:
                 self.t2.start()
-            if os.path.isfile("{}/.mute".format(USER_PATH)):
+            if os.path.isfile("/.mute"):
                 assistantindicator('mute')
-            if (configuration['Wakewords']['Ok_Google'] == 'Disabled' or os.path.isfile("{}/.mute".format(USER_PATH))):
+            if (configuration['Wakewords']['Ok_Google'] == 'Disabled' or os.path.isfile("/.mute")):
                 self.assistant.set_mic_mute(True)
             if custom_wakeword:
                 self.t1.start()
 
         if event.type == EventType.ON_CONVERSATION_TURN_STARTED:
             self.can_start_conversation = False
-            subprocess.Popen(["aplay", "{}/sample-audio-files/Fb.wav".format(ROOT_PATH)], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            subprocess.Popen(["aplay", "/resources/sample-audio-files/Fb.wav"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             if GPIOcontrol:
                 assistantindicator('listening')
             print()
@@ -188,9 +185,9 @@ class MyAssistant():
             self.can_start_conversation = True
             if GPIOcontrol:
                 assistantindicator('off')
-            if (configuration['Wakewords']['Ok_Google'] == 'Disabled' or os.path.isfile("{}/.mute".format(USER_PATH))):
+            if (configuration['Wakewords']['Ok_Google'] == 'Disabled' or os.path.isfile("/.mute")):
                 self.assistant.set_mic_mute(True)
-            if os.path.isfile("{}/.mute".format(USER_PATH)):
+            if os.path.isfile("/.mute"):
                 if GPIOcontrol:
                     assistantindicator('mute')
         if (event.type == EventType.ON_RESPONDING_STARTED and event.args and not event.args['is_error_response']):
@@ -207,9 +204,9 @@ class MyAssistant():
             self.can_start_conversation = True
             if GPIOcontrol:
                 assistantindicator('off')
-            if (configuration['Wakewords']['Ok_Google'] == 'Disabled' or os.path.isfile("{}/.mute".format(USER_PATH))):
+            if (configuration['Wakewords']['Ok_Google'] == 'Disabled' or os.path.isfile("/.mute")):
                 self.assistant.set_mic_mute(True)
-            if os.path.isfile("{}/.mute".format(USER_PATH)):
+            if os.path.isfile("/.mute"):
                 if GPIOcontrol:
                     assistantindicator('mute')
             print()
@@ -286,9 +283,9 @@ class MyAssistant():
         with Assistant(credentials, device_model_id) as assistant:
             self.assistant = assistant
             if gender == 'Male':
-                subprocess.Popen(['aplay', "{}/sample-audio-files/Startup-Male.wav".format(ROOT_PATH)], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                subprocess.Popen(['aplay', "/resources/sample-audio-files/Startup-Male.wav"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             else:
-                subprocess.Popen(['aplay', "{}/sample-audio-files/Startup-Female.wav".format(ROOT_PATH)], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                subprocess.Popen(['aplay', "/resources/sample-audio-files/Startup-Female.wav"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             events = assistant.start()
             device_id = assistant.device_id
             print('device_model_id: ', device_model_id)
