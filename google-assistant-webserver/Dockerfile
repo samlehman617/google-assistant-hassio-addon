@@ -3,9 +3,9 @@ FROM $BUILD_FROM
 
 # Install system packages
 COPY /setup/package.list /
-RUN apt-get update \
-  && xargs -a <(awk '! /^ *(#|$)/' /package.list) -r -- apt-get install -yq --no-install-recommends \
-  && rm package.list
+RUN pwd && ls
+RUN apt-get update -qq
+RUN bash -c "xargs -a <(awk '! /^ *(#|$)/' 'package.list') -r -- apt-get install -yq --no-install-recommends"
 
 # Install Python packages
 COPY /setup/requirements.txt /
@@ -23,7 +23,8 @@ RUN apt-get remove -y --purge python3-pip python3-dev \
   && apt-get clean -y \
   && rm -rf /var/lib/apt/lists/* \
   && rm -rf /packages/* \
-  && rm -rf /resources/alexa
+  && rm -rf /resources/alexa \
+  && rm package.list
 
 # Copy data
 COPY *.sh /
