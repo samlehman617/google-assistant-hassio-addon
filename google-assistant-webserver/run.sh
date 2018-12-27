@@ -13,7 +13,7 @@ SPEAKER_MAC=$(jq --raw-output '.model_id' $CONFIG_PATH)
 # Enable Bluetooth
 ./enable_bt.sh $SPEAKER_MAC
 # Enable Hotword Detection
-./snowboy.sh
+./src/snowboy.sh
 
 # Check if a new assistant file exists
 if [ -f "/share/$CLIENT_SECRETS" ]; then
@@ -30,4 +30,18 @@ elif [ ! -f "$CRED_JSON" ]; then
 fi
 
 echo "[Info] Run Hass.io GAssisant SDK"
-exec python3 /hassio_gassistant.py "$CRED_JSON" "$PROJECT_ID" "$MODEL_ID" < /dev/null
+exec python3 /src/hassio_gassistant.py "$CRED_JSON" "$PROJECT_ID" "$MODEL_ID" < /dev/null
+
+# Setup bluetooth
+# Connect to device
+echo -e "connect $1" | bluetoothctl
+echo -e "trust $1" | bluetoothctl
+
+# Change bluetooth device in sound config
+search="00:00:00:00:00:00"
+sed 's/$search/$1/g' .asoundrc
+
+# Save a copy to /etc/asound.conf & prevent being overwritten
+sudo cp /.asoundrc /etc/asound.conf
+sudo cp /.asoundrc ~/.asoundrc
+chmod a-w /.asoundrc
