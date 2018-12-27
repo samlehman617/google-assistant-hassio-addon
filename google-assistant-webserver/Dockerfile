@@ -16,7 +16,7 @@ RUN pip install --trusted-host pypi.python.org -r /requirements.txt \
 RUN git clone https://github.com/Kitt-AI/snowboy
 COPY /snowboy/examples/Python3/snowboy*.py /src
 COPY /snowboy/examples/Python3/_snowboydetect.so /src
-COPY /snowboy/resources /src
+COPY /snowboy/resources /
 
 # Clean up
 RUN apt-get remove -y --purge python3-pip python3-dev \
