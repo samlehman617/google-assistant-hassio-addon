@@ -17,11 +17,15 @@ libpcre3-dev
 sox
 
 # Misc
+apt-utils
+software-properties-common
 libatlas-base-dev
 libssl-dev
 git
 make
+g++
 jq
 tzdata
+swig
 swig3.0
 sudo

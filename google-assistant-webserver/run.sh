@@ -23,7 +23,7 @@ fi
 
 if [ ! -f "$CRED_JSON" ] && [ -f "$CLIENT_JSON" ]; then
     echo "[Info] Start WebUI for handling oauth2"
-    python3 /hassio_oauth.py "$CLIENT_JSON" "$CRED_JSON"
+    python3 /src/hassio_oauth.py "$CLIENT_JSON" "$CRED_JSON"
 elif [ ! -f "$CRED_JSON" ]; then
     echo "[Error] You need initialize Google Assistant with a client secret json!"
     exit 1
