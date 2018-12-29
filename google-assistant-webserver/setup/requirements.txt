@@ -7,3 +7,8 @@ requests_oauthlib
 cherrypy
 pyaudio
 RPi.GPIO>=0.6.3
+flask
+flask-jsonpify
+flask-restful
+requests_oauthlib
+psutil

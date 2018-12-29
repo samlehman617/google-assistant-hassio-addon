@@ -31,7 +31,7 @@ fi
 
 # Setup bluetooth
 # Connect to device
-
+echo "Setting up bluetooth...$SPEAKER_MAC"
 echo -e "connect $SPEAKER_MAC" | bluetoothctl
 echo -e "trust $SPEAKER_MAC" | bluetoothctl
 

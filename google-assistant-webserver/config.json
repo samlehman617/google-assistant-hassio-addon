@@ -1,6 +1,6 @@
 {
   "name": "Google Assistant SDK",
-  "version": "2.1.7",
+  "version": "2.1.8",
   "slug": "google_assistant",
   "description": "A virtual personal assistant developed by Google. Supports custom hotwords, bluetooth speakers, and a webserver.",
   "url": "https://github.com/samlehman617/hassio-addons/",

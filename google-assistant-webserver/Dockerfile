@@ -12,7 +12,7 @@ COPY /training /training
 # Install system packages
 COPY /setup/package.list /
 RUN apt-get update -qq
-RUN bash -c "xargs -a <(awk '! /^ *(#|$)/' 'package.list') -r -- apt-get install -yq --no-install-recommends"
+RUN bash -c "xargs -a <(awk '! /^ *(#|$)/' 'package.list') -r -- apt-get -qq install -y --no-install-recommends"
 
 # Install Python packages
 COPY /setup/requirements.txt /
@@ -44,6 +44,8 @@ RUN apt-get remove -y --purge python3-pip python3-dev \
 RUN useradd -m docker && echo "docker:docker" | chpasswd && adduser docker sudo
 
 LABEL \
+  maintainer="samlehman617@gmail.com" \
+  description="Google Assistant with custom hotword, bluetooth, and GPIO support."
   io.hass.version="VERSION" \
   io.hass.type="addon" \
   io.hass.arch="armhf|aarch64|i386|amd64"
