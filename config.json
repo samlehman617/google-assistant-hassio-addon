@@ -3,7 +3,7 @@
   "version": "2.1.8",
   "slug": "google_assistant",
   "description": "A virtual personal assistant developed by Google. Supports custom hotwords, bluetooth speakers, and a webserver.",
-  "url": "https://github.com/samlehman617/hassio-addons/",
+  "url": "https://github.com/samlehman617/google-assistant-hassio-addon",
   "startup": "application",
   "boot": "auto",
   "arch": ["armhf", "amd64"],
