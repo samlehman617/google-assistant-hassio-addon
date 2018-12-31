@@ -1,9 +1,5 @@
-Hass.io Addons
---------------------------
-
-Here are my addons for Hass.io. Enjoy!
-
-## Google Assistant
+# Google Assistant
+![Google Assistant](icon.png?raw=true "Google Assistant Hassio Addon")
 Modified version of the default Google Assistant addon.  
 
 # Features:
