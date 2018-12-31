@@ -1,5 +1,5 @@
 # Google Assistant
-![Google Assistant](icon.png?raw=true "Google Assistant Hassio Addon")
+![Google Assistant](logo.png?raw=true "Google Assistant Hassio Addon")
 Modified version of the default Google Assistant addon.  
 
 # Features:
