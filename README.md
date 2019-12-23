@@ -1,6 +1,11 @@
-![Logo](https://raw.githubusercontent.com/samlehman617/google-assistant-hassio-addon/master/logo.png)
-
-# Google Assistant Hassio Addon
+<h1>
+  <img 
+       src="https://raw.githubusercontent.com/samlehman617/google-assistant-hassio-addon/master/logo.png" 
+       width="64" 
+       align="left"
+  />
+  Google Assistant Hassio Addon
+</h1><br />
 
 
 Modified version of the default Google Assistant addon.  
