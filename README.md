@@ -1,4 +1,4 @@
-<img src="logo.png" align="left" height="64" width="64" >
+![Logo](https://raw.githubusercontent.com/samlehman617/google-assistant-hassio-addon/master/logo.png)
 
 # Google Assistant Hassio Addon
 
